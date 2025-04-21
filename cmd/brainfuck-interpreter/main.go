@@ -1,20 +1,22 @@
 package main
 
-import "fmt"
+import (
+	"bufio"
+	"fmt"
+	"os"
+)
 
 func main() {
-
+	scanner := bufio.NewScanner(os.Stdin)
 	for {
-		fmt.Print("BF-REPL> ")
-		var input string
-		_, err := fmt.Scan(&input)
-		if input == "exit" {
-			break
+		fmt.Printf("BF-REPL> ")
+		if scanner.Scan() {
+			input := scanner.Text()
+			if input == "exit" {
+				break
+			}
+			fmt.Println(input)
 		}
-		if err != nil {
-			fmt.Printf("%v\n", err)
-		}
-		fmt.Println(input)
-	}
 
+	}
 }
