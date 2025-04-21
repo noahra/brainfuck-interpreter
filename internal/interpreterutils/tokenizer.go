@@ -18,12 +18,12 @@ type token struct {
 	symbol string
 }
 
-func parseTokens(tokens []token) ([]int, error) {
+func parseTokens(tokens []token) ([30000]int, error) {
 	var memory [30000]int
 	pointer := 0
-	currentSquareBracket := "None"
 
-	for _, item := range tokens {
+	for i := 0; i < len(tokens); i++ {
+		item := tokens[i]
 		if item.symbol == "+" {
 			memory[pointer]++
 		}
@@ -45,11 +45,64 @@ func parseTokens(tokens []token) ([]int, error) {
 			}
 		}
 		if item.symbol == "[" {
-			currentSquareBracket = item.symbol
 			if memory[pointer] == 0 {
+				var squareBrackets Stack
+				squareBrackets.Push(item.symbol)
+				for j := i + 1; j < len(tokens); j++ {
+					if tokens[j].symbol == "]" {
+						squareBrackets.Pop()
+					}
+					if tokens[j].symbol == "[" {
+						squareBrackets.Push("[")
+					}
+					if squareBrackets.IsEmpty() {
+						i = j
+						break
+					}
+
+				}
+
+			}
+		}
+		if item.symbol == "]" {
+			if memory[pointer] != 0 {
+				var squareBrackets Stack
+				squareBrackets.Push(item.symbol)
+				for j := i - 1; j > 0; j-- {
+					if tokens[j].symbol == "[" {
+						squareBrackets.Pop()
+					}
+					if tokens[j].symbol == "]" {
+						squareBrackets.Push("]")
+					}
+					if squareBrackets.IsEmpty() {
+						i = j - 1
+						break
+					}
+				}
 
 			}
 		}
 	}
 
+	return memory, nil
+}
+
+type Stack []string
+
+func (s *Stack) IsEmpty() bool {
+	return len(*s) == 0
+}
+func (s *Stack) Push(str string) {
+	*s = append(*s, str)
+}
+func (s *Stack) Pop() (string, bool) {
+	if s.IsEmpty() {
+		return "", false
+	} else {
+		index := len(*s) - 1
+		element := (*s)[index]
+		*s = (*s)[:index]
+		return element, true
+	}
 }
