@@ -17,3 +17,39 @@ func interpretInput(input string) []token {
 type token struct {
 	symbol string
 }
+
+func parseTokens(tokens []token) ([]int, error) {
+	var memory [30000]int
+	pointer := 0
+	currentSquareBracket := "None"
+
+	for _, item := range tokens {
+		if item.symbol == "+" {
+			memory[pointer]++
+		}
+		if item.symbol == "-" {
+			memory[pointer]--
+		}
+		if item.symbol == ">" {
+			if pointer < 30000 {
+				pointer++
+			} else {
+				//todo throw err
+			}
+		}
+		if item.symbol == "<" {
+			if pointer > 0 {
+				pointer--
+			} else {
+				//todo throw err
+			}
+		}
+		if item.symbol == "[" {
+			currentSquareBracket = item.symbol
+			if memory[pointer] == 0 {
+
+			}
+		}
+	}
+
+}

@@ -4,7 +4,6 @@ import (
 	"bufio"
 	"fmt"
 	"os"
-	"strings"
 )
 
 func RunRepl() {
@@ -17,6 +16,7 @@ func RunRepl() {
 				break
 			}
 			tokens := interpretInput(input)
+			memory := parseTokens(tokens)
 		}
 	}
 }
