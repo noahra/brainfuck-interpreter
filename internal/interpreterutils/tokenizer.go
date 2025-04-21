@@ -1,6 +1,8 @@
 package interpreterutils
 
-import "strings"
+import (
+	"strings"
+)
 
 func interpretInput(input string) []token {
 	var tokens []token
@@ -18,8 +20,9 @@ type token struct {
 	symbol string
 }
 
-func parseTokens(tokens []token) ([30000]int, error) {
+func parseTokens(tokens []token) ([]int, error) {
 	var memory [30000]int
+	var output []int
 	pointer := 0
 
 	for i := 0; i < len(tokens); i++ {
@@ -83,9 +86,12 @@ func parseTokens(tokens []token) ([30000]int, error) {
 
 			}
 		}
+		if item.symbol == "." {
+			output = append(output, memory[pointer])
+		}
 	}
 
-	return memory, nil
+	return output, nil
 }
 
 type Stack []string

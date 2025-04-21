@@ -9,14 +9,18 @@ import (
 func RunRepl() {
 	scanner := bufio.NewScanner(os.Stdin)
 	for {
-		fmt.Printf("BF-REPL> ")
+		fmt.Printf("\nBF-REPL> ")
 		if scanner.Scan() {
 			input := scanner.Text()
 			if input == "exit" {
 				break
 			}
 			tokens := interpretInput(input)
-			memory := parseTokens(tokens)
+			fmt.Println()
+			output, _ := parseTokens(tokens)
+			for _, char := range output {
+				fmt.Printf("%c", char)
+			}
 		}
 	}
 }

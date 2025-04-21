@@ -11,4 +11,6 @@ func HandleScript() {
 		fmt.Println("error occurred: ", err)
 	}
 	tokens := interpretInput(string(file))
+	fmt.Println()
+	parseTokens(tokens)
 }
