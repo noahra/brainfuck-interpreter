@@ -1,0 +1,14 @@
+package interpreterutils
+
+import (
+	"fmt"
+	"os"
+)
+
+func HandleScript() {
+	file, err := os.ReadFile(os.Args[1])
+	if err != nil {
+		fmt.Println("error occurred: ", err)
+	}
+	fmt.Print(string(file))
+}

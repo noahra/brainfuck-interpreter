@@ -1,4 +1,4 @@
-package repl
+package interpreterutils
 
 import (
 	"bufio"
@@ -15,6 +15,7 @@ func RunRepl() {
 			if input == "exit" {
 				break
 			}
+
 			fmt.Println(input)
 		}
 	}
