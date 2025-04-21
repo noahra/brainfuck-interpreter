@@ -1,22 +1,9 @@
 package main
 
 import (
-	"bufio"
-	"fmt"
-	"os"
+	"github.com/noahra/brainfuck-interpreter/internal/repl"
 )
 
 func main() {
-	scanner := bufio.NewScanner(os.Stdin)
-	for {
-		fmt.Printf("BF-REPL> ")
-		if scanner.Scan() {
-			input := scanner.Text()
-			if input == "exit" {
-				break
-			}
-			fmt.Println(input)
-		}
-
-	}
+	repl.RunRepl()
 }
