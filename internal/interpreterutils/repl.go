@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"strings"
 )
 
 func RunRepl() {
@@ -15,8 +16,7 @@ func RunRepl() {
 			if input == "exit" {
 				break
 			}
-
-			fmt.Println(input)
+			tokens := interpretInput(input)
 		}
 	}
 }

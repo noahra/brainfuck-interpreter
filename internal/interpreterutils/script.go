@@ -10,5 +10,5 @@ func HandleScript() {
 	if err != nil {
 		fmt.Println("error occurred: ", err)
 	}
-	fmt.Print(string(file))
+	tokens := interpretInput(string(file))
 }
