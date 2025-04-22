@@ -1,8 +1,10 @@
 package interpreterutils
 
-func executeBrainfuck(tokens []token) ([]int, error) {
+import "strings"
+
+func executeBrainfuck(tokens []token) (string, error) {
 	var memory [30000]int
-	var output []int
+	var output []rune
 	pointer := 0
 
 	for i := 0; i < len(tokens); i++ {
@@ -67,11 +69,11 @@ func executeBrainfuck(tokens []token) ([]int, error) {
 			}
 		}
 		if item.symbol == "." {
-			output = append(output, memory[pointer])
+			output = append(output, rune(memory[pointer]))
 		}
 	}
 
-	return output, nil
+	return strings.TrimSpace(string(output)), nil
 }
 
 type Stack []string

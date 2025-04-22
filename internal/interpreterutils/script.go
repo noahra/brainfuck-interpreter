@@ -12,5 +12,6 @@ func HandleScript() {
 	}
 	tokens := interpretInput(string(file))
 	fmt.Println()
-	executeBrainfuck(tokens)
+	output, _ := executeBrainfuck(tokens)
+	fmt.Println(output)
 }
