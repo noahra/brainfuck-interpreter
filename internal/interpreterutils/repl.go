@@ -17,7 +17,7 @@ func RunRepl() {
 			}
 			tokens := interpretInput(input)
 			fmt.Println()
-			output, _ := parseTokens(tokens)
+			output, _ := executeBrainfuck(tokens)
 			for _, char := range output {
 				fmt.Printf("%c", char)
 			}
