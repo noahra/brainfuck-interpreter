@@ -39,7 +39,7 @@ func executeBrainfuck(tokens []token) (string, error) {
 		}
 	}
 
-	return strings.TrimSpace(string(output)), nil
+	return strings.ReplaceAll(string(output), "\n", ""), nil
 }
 func handleRightBracket(tokens []token, outerIndex int) int {
 	var squareBrackets Stack
@@ -52,8 +52,7 @@ func handleRightBracket(tokens []token, outerIndex int) int {
 			squareBrackets.Push("]")
 		}
 		if squareBrackets.IsEmpty() {
-			outerIndex = j - 1
-			break
+			return j - 1
 		}
 	}
 	return outerIndex
@@ -69,7 +68,7 @@ func handleLeftBracket(tokens []token, outerIndex int) int {
 			squareBrackets.Push("[")
 		}
 		if squareBrackets.IsEmpty() {
-			return outerIndex
+			return j
 		}
 	}
 	return outerIndex
