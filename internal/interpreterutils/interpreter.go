@@ -1,6 +1,8 @@
 package interpreterutils
 
-import "strings"
+import (
+	"strings"
+)
 
 func executeBrainfuck(tokens []token) (string, error) {
 	var memory [30000]int
@@ -36,21 +38,7 @@ func executeBrainfuck(tokens []token) (string, error) {
 		}
 		if item.symbol == "]" {
 			if memory[pointer] != 0 {
-				var squareBrackets Stack
-				squareBrackets.Push(item.symbol)
-				for j := i - 1; j > 0; j-- {
-					if tokens[j].symbol == "[" {
-						squareBrackets.Pop()
-					}
-					if tokens[j].symbol == "]" {
-						squareBrackets.Push("]")
-					}
-					if squareBrackets.IsEmpty() {
-						i = j - 1
-						break
-					}
-				}
-
+				i = handleRightBracket(tokens, i)
 			}
 		}
 		if item.symbol == "." {
@@ -60,7 +48,23 @@ func executeBrainfuck(tokens []token) (string, error) {
 
 	return strings.TrimSpace(string(output)), nil
 }
-
+func handleRightBracket(tokens []token, outerIndex int) int {
+	var squareBrackets Stack
+	squareBrackets.Push("[")
+	for j := outerIndex - 1; j > 0; j-- {
+		if tokens[j].symbol == "[" {
+			squareBrackets.Pop()
+		}
+		if tokens[j].symbol == "]" {
+			squareBrackets.Push("]")
+		}
+		if squareBrackets.IsEmpty() {
+			outerIndex = j - 1
+			break
+		}
+	}
+	return outerIndex
+}
 func handleLeftBracket(tokens []token, outerIndex int) int {
 	var squareBrackets Stack
 	squareBrackets.Push("[")
