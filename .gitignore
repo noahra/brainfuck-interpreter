@@ -1,0 +1,16 @@
+# IDE files
+.idea/
+
+# Project specific files
+*.iml
+*.xml
+*.bf
+
+# Temporary files
+*.swp
+*~
+.DS_Store
+
+# Compiled binaries
+bin/
+build/
