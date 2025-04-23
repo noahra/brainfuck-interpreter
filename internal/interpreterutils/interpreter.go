@@ -31,22 +31,7 @@ func executeBrainfuck(tokens []token) (string, error) {
 		}
 		if item.symbol == "[" {
 			if memory[pointer] == 0 {
-				var squareBrackets Stack
-				squareBrackets.Push(item.symbol)
-				for j := i + 1; j < len(tokens); j++ {
-					if tokens[j].symbol == "]" {
-						squareBrackets.Pop()
-					}
-					if tokens[j].symbol == "[" {
-						squareBrackets.Push("[")
-					}
-					if squareBrackets.IsEmpty() {
-						i = j
-						break
-					}
-
-				}
-
+				i = handleLeftBracket(tokens, i)
 			}
 		}
 		if item.symbol == "]" {
@@ -74,6 +59,23 @@ func executeBrainfuck(tokens []token) (string, error) {
 	}
 
 	return strings.TrimSpace(string(output)), nil
+}
+
+func handleLeftBracket(tokens []token, outerIndex int) int {
+	var squareBrackets Stack
+	squareBrackets.Push("[")
+	for j := outerIndex + 1; j < len(tokens); j++ {
+		if tokens[j].symbol == "]" {
+			squareBrackets.Pop()
+		}
+		if tokens[j].symbol == "[" {
+			squareBrackets.Push("[")
+		}
+		if squareBrackets.IsEmpty() {
+			return outerIndex
+		}
+	}
+	return outerIndex
 }
 
 type Stack []string
