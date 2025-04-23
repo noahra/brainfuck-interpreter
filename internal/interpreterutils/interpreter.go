@@ -1,6 +1,7 @@
 package interpreterutils
 
 import (
+	"errors"
 	"strings"
 )
 
@@ -10,38 +11,30 @@ func executeBrainfuck(tokens []token) (string, error) {
 	pointer := 0
 
 	for i := 0; i < len(tokens); i++ {
-		item := tokens[i]
-		if item.symbol == "+" {
+		switch tokens[i].symbol {
+		case "+":
 			memory[pointer]++
-		}
-		if item.symbol == "-" {
+		case "-":
 			memory[pointer]--
-		}
-		if item.symbol == ">" {
-			if pointer < 30000 {
-				pointer++
-			} else {
-				//todo throw err
+		case ">":
+			if pointer >= 30000 {
+				return "", errors.New("pointer out of bounds: exceeded maximum memory address")
 			}
-		}
-		if item.symbol == "<" {
-			if pointer > 0 {
-				pointer--
-			} else {
-				//todo throw err
+			pointer++
+		case "<":
+			if pointer <= 0 {
+				return "", errors.New("pointer out of bounds: negative memory address")
 			}
-		}
-		if item.symbol == "[" {
+			pointer--
+		case "[":
 			if memory[pointer] == 0 {
 				i = handleLeftBracket(tokens, i)
 			}
-		}
-		if item.symbol == "]" {
+		case "]":
 			if memory[pointer] != 0 {
 				i = handleRightBracket(tokens, i)
 			}
-		}
-		if item.symbol == "." {
+		case ".":
 			output = append(output, rune(memory[pointer]))
 		}
 	}
