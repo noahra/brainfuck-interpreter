@@ -1,7 +1,9 @@
 package interpreterutils
 
 import (
+	"bufio"
 	"errors"
+	"os"
 	"strings"
 )
 
@@ -36,7 +38,14 @@ func executeBrainfuck(tokens []token) (string, error) {
 			}
 		case ".":
 			output = append(output, rune(memory[pointer]))
+
+		case ",":
+			scanner := bufio.NewScanner(os.Stdin)
+			if scanner.Scan() {
+				memory[i] = int(scanner.Bytes()[0])
+			}
 		}
+
 	}
 
 	return strings.ReplaceAll(string(output), "\n", ""), nil
